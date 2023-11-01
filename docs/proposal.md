@@ -33,3 +33,12 @@ When properly implemented, the SimHash Algorithm can determine the level of simi
 
 ## Test Cases
 Our test cases will measure the algorithm's ability to test different similarity scores between 2 documents. There will be a test case with identical documents, one with 90% similar documents, one with 50% similar documents, and one with <10% similar documents. Additionally, our test cases will test the algorithm's ability to compare multiple documents at once, where the input will have 10 documents with the first document listed being the baseline comparator, and the other documents will be compared to the baseline.
+
+# Data Description
+
+The Short.txt, Short-Medium.txt, and Medium.txt files were manually written. Each of these txt files consists of the base comparator, i.e., the primary document, and other documents that will be compared against this base. The comparators, which will be measured against the base, vary in similarity to the base comparator. They range from being exactly identical, to very similar, somewhat similar, mostly different, and entirely distinct. The lengths of these text files correspond to their titles.
+
+The Long.txt file was sourced directly from two distinct articles discussing the same game—the Bears vs. Chargers match on October 29. The first article views the game from the Bears' perspective: (https://www.chicagobears.com/news/rapid-recap-bears-fall-to-chargers-in-los-angeles-2023-week-8 ),  
+while the second offers insights from the Chargers' viewpoint: (https://www.chargers.com/news/chargers-bears-grades-nfl-herbert-ekeler).
+
+Lastly, the Really-Long.txt file comprises two randomly generated text segments. We anticipate minimal similarity between them.
