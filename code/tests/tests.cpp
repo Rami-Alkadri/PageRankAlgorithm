@@ -47,3 +47,5 @@ TEST_CASE("emptyDocumentSimHash")
     REQUIRE_FALSE(sh.isSimilar(doc1, doc2));
 }
 
+
+
