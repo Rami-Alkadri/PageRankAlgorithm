@@ -14,24 +14,24 @@ When properly implemented, the SimHash Algorithm can determine the level of simi
 # Function I/O
 
 ## Function: convertTXTtoDocuments
-### Description: This function will convert a TXT file into a vector of strings, where each string represents a document.
-Input: A TXT file where each row represents a document.
+## Description: This function will convert a TXT file into a vector of strings, where each string represents a document.
+### Input: A TXT file where each row represents a document.
  - infile (std::string): The absolute path to the TXT file where each row represents a document.
-Output: A vector of strings, where each string represents a document.
+### Output: A vector of strings, where each string represents a document.
  - std::vector<std::string>: A vector of strings, where each string represents a document.
 ## Function: computeSimHash
-### Description: This function will compute the SimHash fingerprint for a given document.
-Input: A string which represents a document.
+## Description: This function will compute the SimHash fingerprint for a given document.
+### Input: A string which represents a document.
  - document (std::string): A string which represents a document.
-Output: A SimHash fingerprint of the document.
+### Output: A SimHash fingerprint of the document.
  - std::bitset<32>: A SimHash fingerprint of the document.
 
 ## Function Name: measureSimilarity
-### Description: This function will measure the similarity between two SimHash fingerprints.
-Input: Two SimHash fingerprints of 2 documents.
+## Description: This function will measure the similarity between two SimHash fingerprints.
+### Input: Two SimHash fingerprints of 2 documents.
  - fingerprint1 (std::bitset<32>): SimHash fingerprint of the first document.
  - fingerprint2 (std::bitset<32>): SimHash fingerprint of the second document.
-Output: A similarity score between the two fingerprints (ranging between 0 - 100 %)
+### Output: A similarity score between the two fingerprints (ranging between 0 - 100 %)
  - double: A similarity score between the two fingerprints, ranging between 0 to 100%
 
 ## Test Cases
