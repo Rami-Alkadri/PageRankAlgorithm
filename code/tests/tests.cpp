@@ -12,7 +12,7 @@ TEST_CASE("Same Sim Hash")
     SimHash sh;
     std::string doc1 = "Hello, world!";
     std::string doc2 = "Hello, world!";
-    REQUIRE(sh.compute(doc1) == sh.compute(doc2));
+    REQUIRE(sh.computeSimHash(doc1) == sh.computeSimHash(doc2));
 }
 
 TEST_CASE("High similarity")
@@ -39,20 +39,19 @@ TEST_CASE("Low similarity")
     REQUIRE(sh.measureSimilarity(doc1, doc2) <= .1);
 }
 
-TEST_CASE("Large Doc SimHash")
-{
-    SimHash sh;
-    std::string doc1 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum.";
-    std::string doc2 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum.";
-    REQUIRE(sh.compute(doc1) == sh.compute(doc2));
-}
-
 TEST_CASE("Empty Doc SimHash")
 {
     SimHash sh;
     std::string doc1 = "";
     std::string doc2 = "This is not an empty document.";
-    REQUIRE_FALSE(sh.isSimilar(doc1, doc2));
+    REQUIRE(measureSimilarity.(doc1, doc2) <= .1);
+}
+
+TEST_CASE("TXT to Document")
+{
+    SimHash sh;
+    std::vector<std::string> docs = sh.convertTXTtoDocument("./data/Long.txt");
+    REQUIRE(docs.size() == 2);
 }
 
 
