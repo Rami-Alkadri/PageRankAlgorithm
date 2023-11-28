@@ -1,58 +1,45 @@
 #include <catch2/catch_test_macros.hpp>
+#include "PageRank.h"
 
-TEST_CASE("Different Sim Hash") {
-    SimHash sh;
-    std::string doc1 = "This is a complex document.";
-    std::string doc2 = "This is a simple document.";
-    REQUIRE(sh.computeSimHash(doc1) != sh.computeSimHash(doc2));
+TEST_CASE("CSV File Reader") {
+    PageRank pr("webpages.csv", 0.85); 
+    REQUIRE(pr.getNumberOfPages() == 10); 
 }
 
-TEST_CASE("Same Sim Hash")
-{
-    SimHash sh;
-    std::string doc1 = "Hello, world!";
-    std::string doc2 = "Hello, world!";
-    REQUIRE(sh.computeSimHash(doc1) == sh.computeSimHash(doc2));
+TEST_CASE("Empty CSV File") {
+    PageRank pr("empty.csv", 0.85);
+    REQUIRE_THROWS_AS(pr.calculatePageRank(), std::runtime_error);
 }
 
-TEST_CASE("High similarity")
-{
-    SimHash sh;
-    std::string doc1 = "The quick brown fox jumps over the lazy dog.";
-    std::string doc2 = "The quick brown fox jumped over the lazy dogs.";
-    REQUIRE_FALSE(sh.measureSimilarity(doc1, doc2) <= .9);
+TEST_CASE("Invalid CSV File Format") {
+    PageRank pr("invalid_format.csv", 0.85);
+    REQUIRE_THROWS_AS(pr.calculatePageRank(), std::runtime_error); 
 }
 
-TEST_CASE("Medium similarity")
-{
-    SimHash sh;
-    std::string doc1 = "Machine learning is a subset of artificial intelligence.";
-    std::string doc2 = "Machine learning belongs to the domain of artificial intelligence.";
-    REQUIRE(sh.measureSimilarity(doc1, doc2) >= .4 && sh.measureSimilarity(doc1, doc2) <= .6);
+TEST_CASE("Matrix Multiplication") {
+    PageRank pr("webpages.csv", 0.85);
+    std::vector<double> testVector = {1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    std::vector<double> result = pr.multiplyMatrix(testVector); 
+    std::vector<double> expected = {0.1, 0.15, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.05}; 
+    REQUIRE(result == expected);
 }
 
-TEST_CASE("Low similarity")
-{
-    SimHash sh;
-    std::string doc1 = "The quick brown fox jumps over the lazy dog.";
-    std::string doc2 = "Machine learning belongs to the domain of artificial intelligence.";
-    REQUIRE(sh.measureSimilarity(doc1, doc2) <= .1);
+TEST_CASE("PageRank Calculation") {
+    PageRank pr("webpages.csv", 0.85);
+    pr.calculatePageRank();
+    std::vector<double> ranks = pr.getPageRanks(); 
+    REQUIRE(ranks.size() == 10);
 }
 
-TEST_CASE("Empty Doc SimHash")
-{
-    SimHash sh;
-    std::string doc1 = "";
-    std::string doc2 = "This is not an empty document.";
-    REQUIRE(measureSimilarity.(doc1, doc2) <= .1);
+TEST_CASE("Damping Factor Effect") {
+    PageRank pr1("webpages.csv", 0.85);
+    PageRank pr2("webpages.csv", 0.95);
+    pr1.calculatePageRank();
+    pr2.calculatePageRank();
+    REQUIRE(pr1.getPageRanks() != pr2.getPageRanks());
 }
 
-TEST_CASE("TXT to Document")
-{
-    SimHash sh;
-    std::vector<std::string> docs = sh.convertTXTtoDocument("./data/Long.txt");
-    REQUIRE(docs.size() == 2);
+TEST_CASE("Adjacency Matrix Generation") {
+    PageRank pr("webpages.csv", 0.85);
+    auto adjacencyMatrix = pr.getAdjacencyMatrix(); 
 }
-
-
-
