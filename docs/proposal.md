@@ -10,26 +10,27 @@ When properly implemented, the SimHash Algorithm can determine the level of simi
 
 # Function I/O
 
-## Function: convertTXTtoDocuments
-## Description: This function will convert a TXT file into a vector of strings, where each string represents a document.
-### Input: A TXT file where each row represents a document.
- - infile (std::string): The absolute path to the TXT file where each row represents a document.
-### Output: A vector of strings, where each string represents a document.
- - std::vector<std::string>: A vector of strings, where each string represents a document.
-## Function: computeSimHash
-## Description: This function will compute the SimHash fingerprint for a given document.
-### Input: A string which represents a document.
- - document (std::string): A string which represents a document.
-### Output: A SimHash fingerprint of the document.
- - std::bitset<32>: A SimHash fingerprint of the document.
+## Following all reside within PageRank Class: 
 
-## Function Name: measureSimilarity
-## Description: This function will measure the similarity between two SimHash fingerprints.
-### Input: Two SimHash fingerprints of 2 documents.
- - fingerprint1 (std::bitset<32>): SimHash fingerprint of the first document.
- - fingerprint2 (std::bitset<32>): SimHash fingerprint of the second document.
-### Output: A similarity score between the two fingerprints (ranging between 0 - 100 %)
- - double: A similarity score between the two fingerprints, ranging between 0 to 100%
+## Function: matrixMultiplier
+## Description: This function multiplies two matrices, and returns the product. Before doing so, it checks if the two provided matrices can mathematically be multiplied.
+### Inputs: Two Matrices A and B.
+- std::vector<std::vector<int>>& A: The first matrix, a reference so as to not make another copy.
+- std::vector<std::vector<int>>& B: The second matrix.
+### Output: The product of the two matrices if possible, a warning if not.
+- std::vector<std::vector<int>>: Product matrix.
+
+## Constructor: pageRank
+## Description: This constructor initializes the adjacency matrix of the pageRank class from the given csv. A[i][j] will be 1 if there is an edge going from link i to link j, and 0 otherwise. It also initializes the pageRankValues 1-d vector with temporary values. 
+## Input: csvFile containing lines of the format "source, target".
+## Output: None.
+
+## 
+
+
+
+
+
 
 ## Test Cases
 Our test cases will measure the algorithm's ability to test different similarity scores between 2 documents. There will be a test case with identical documents, one with 90% similar documents, one with 50% similar documents, and one with <10% similar documents. Additionally, our test cases will test the algorithm's ability to compare multiple documents at once, where the input will have 10 documents with the first document listed being the baseline comparator, and the other documents will be compared to the baseline.
