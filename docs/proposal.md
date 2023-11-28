@@ -1,8 +1,8 @@
 # Academic Reference
 
-The algorithm we are proposing to implement is the Page Rank Algorithm ([https://dsa21.techconf.org/download/DSA2021_FULL/pdfs/DSA2021-1sP33wTCujRJmnnXDjv3mG/439100a739/439100a739.pdf](https://www.cis.upenn.edu/~mkearns/teaching/NetworkedLife/pagerank.pdf)).
+The algorithm we are proposing to implement is the Page Rank Algorithm. ([https://dsa21.techconf.org/download/DSA2021_FULL/pdfs/DSA2021-1sP33wTCujRJmnnXDjv3mG/439100a739/439100a739.pdf](https://www.cis.upenn.edu/~mkearns/teaching/NetworkedLife/pagerank.pdf)).
 
-To assist us in understanding this algorithm, we will also watch helpful videos demonstrating examples of this algorithm in action, including the video ( [https://www.youtube.com/watch?v=gnraT4N43qo](https://pi.math.cornell.edu/~mec/Winter2009/RalucaRemus/Lecture3/lecture3.html) ). We will also use other internet resources as needed.
+To assist us in understanding this algorithm, we will use academic papers as well as educational resources from well-known institutions (https://pi.math.cornell.edu/~mec/Winter2009/RalucaRemus/Lecture3/lecture3.html). We will also use other internet resources as needed.
 
 # Algorithm Summary
 
