@@ -61,4 +61,45 @@ unordered_map<int, int> PageRank::getOutlinkCounts() {
     return outlink_count_;
 }
 
+std::vector<double> PageRank::multiplyMatrixByVector(const std::vector<double>& vec) {
+    if (adjacencymatrix.empty() || adjacencymatrix[0].size() != vec.size()) {
+        throw std::invalid_argument("Matrix and vector dimensions do not match.");
+    }
+
+    std::vector<double> result(adjacencymatrix.size(), 0.0);
+
+    for (size_t i = 0; i < adjacencymatrix.size(); ++i) {
+        for (size_t j = 0; j < vec.size(); ++j) {
+            result[i] += adjacencymatrix[i][j] * vec[j];
+        }
+    }
+    return result;
+}
+
+void PageRank::calculatePageRank(int maxIterations, double tolerance) {
+    std::vector<double> newRanks(ranks.size(), 1.0 / ranks.size());
+
+    for (int iter = 0; iter < maxIterations; ++iter) {
+        std::fill(newRanks.begin(), newRanks.end(), (1.0 - dampingfactor) / ranks_.size());
+
+        for (size_t i = 0; i < adjacencymatrix.size(); ++i) {
+            for (size_t j = 0; j < adjacencymatrix[i].size(); ++j) {
+                if (adjacencymatrix[i][j] != 0) {
+                    newRanks[i] += dampingfactor * adjacencymatrix[i][j] * ranks_[j];
+                }
+            }
+        }
+        double delta = 0.0;
+        for (sizet i = 0; i < ranks.size(); ++i) {
+            delta += std::fabs(newRanks[i] - ranks[i]);
+        }
+
+        ranks = newRanks;
+
+        if (delta < tolerance) {
+            break;
+        }
+    }
+}
+
 

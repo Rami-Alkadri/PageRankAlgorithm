@@ -6,7 +6,7 @@ To assist us in understanding this algorithm, we will use academic papers as wel
 
 # Algorithm Summary
 
-When properly implemented, the SimHash Algorithm can determine the level of similarity between distinct documents. By analyzing and comparing the unique fingerprints generated for each document, we can distinguish between exact copies, partial copies, and entirely different texts. The algorithm starts by tokenizing the text, assessing the significance of each token, and then producing a compact hash representation. Only after this step can we compare the hash of the base document to the hashes of other documents. Subsequently, we generate a similarity score.
+When properly implemented, the PageRank Algorithm receives a csv of links in the format of "source, target", correctly processes it into an adjacency matrix where columns are source, and rows are the target links. We will also construct a map that maps links (string) to the index they reside in within the adjacency matrix for ease of access. The purpose of our algorithm is to be able to rank the importance of web pages. We are not yet sure how we will output pageRank. This important algorithm is used frquently in search engines.
 
 # Function I/O
 
@@ -25,7 +25,9 @@ When properly implemented, the SimHash Algorithm can determine the level of simi
 ## Input: csvFile containing lines of the format "source, target".
 ## Output: None.
 
-## 
+
+## Function: 
+
 
 
 
@@ -37,9 +39,4 @@ Our test cases will measure the algorithm's ability to test different similarity
 
 # Data Description
 
-The Short.txt, Short-Medium.txt, and Medium.txt files were manually written. Each of these txt files consists of the base comparator, i.e., the primary document, and other documents that will be compared against this base. The comparators, which will be measured against the base, vary in similarity to the base comparator. They range from being exactly identical, to very similar, somewhat similar, mostly different, and entirely distinct. The lengths of these text files correspond to their titles.
-
-The Long.txt file was sourced directly from two distinct articles discussing the same game—the Bears vs. Chargers match on October 29. The first article views the game from the Bears' perspective: (https://www.chicagobears.com/news/rapid-recap-bears-fall-to-chargers-in-los-angeles-2023-week-8 ),  
-while the second offers insights from the Chargers' viewpoint: (https://www.chargers.com/news/chargers-bears-grades-nfl-herbert-ekeler).
-
-Lastly, the Really-Long.txt file comprises two randomly generated text segments. We anticipate minimal similarity between them.
+Our data varies in size. It features csvs written in the format of "source, destination". Source is where a link of originates, and destination is that link points to. The 2,4,10 WebPages csvs were written manually, while the Huge and Large Amount Web Pages were found online. Instead of links, we used airport codes (for plane travel).
