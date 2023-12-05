@@ -7,10 +7,14 @@ using namespace std;
 
 void PageRank::buildAdjacencyMatrix(const string& filename) {
     ifstream file(filename);
+    if (!file.is_open()) {
+        throw runtime_error("Unable to open file: " + filename);
+    }
+
     string line, source, destination;
     int pageIndex = 0;
 
-    while (std::getline(file, line)) {
+    while (getline(file, line)) {
         std::istringstream iss(line);
         if (!(iss >> source >> destination)) {
             continue; 
@@ -61,45 +65,76 @@ unordered_map<int, int> PageRank::getOutlinkCounts() {
     return outlink_count_;
 }
 
-std::vector<double> PageRank::multiplyMatrixByVector(const std::vector<double>& vec) {
-    if (adjacencymatrix.empty() || adjacencymatrix[0].size() != vec.size()) {
-        throw std::invalid_argument("Matrix and vector dimensions do not match.");
+vector<double> PageRank::multiplyMatrixByVector(const vector<double>& vec) {
+    if (adjacency_matrix_.empty() || adjacency_matrix_[0].size() != vec.size()) {
+        throw invalid_argument("Matrix and vector dimensions do not match.");
     }
 
-    std::vector<double> result(adjacencymatrix.size(), 0.0);
+    vector<double> result(adjacency_matrix_.size(), 0.0);
 
-    for (size_t i = 0; i < adjacencymatrix.size(); ++i) {
+    for (size_t i = 0; i < adjacency_matrix_.size(); ++i) {
         for (size_t j = 0; j < vec.size(); ++j) {
-            result[i] += adjacencymatrix[i][j] * vec[j];
+            result[i] += adjacency_matrix_[i][j] * vec[j];
         }
     }
     return result;
 }
 
 void PageRank::calculatePageRank(int maxIterations, double tolerance) {
-    std::vector<double> newRanks(ranks.size(), 1.0 / ranks.size());
+    vector<double> newRanks(ranks_.size(), 1.0 / ranks_.size());
 
     for (int iter = 0; iter < maxIterations; ++iter) {
-        std::fill(newRanks.begin(), newRanks.end(), (1.0 - dampingfactor) / ranks_.size());
+        fill(newRanks.begin(), newRanks.end(), (1.0 - damping_factor_) / ranks_.size());
 
-        for (size_t i = 0; i < adjacencymatrix.size(); ++i) {
-            for (size_t j = 0; j < adjacencymatrix[i].size(); ++j) {
-                if (adjacencymatrix[i][j] != 0) {
-                    newRanks[i] += dampingfactor * adjacencymatrix[i][j] * ranks_[j];
+        for (size_t i = 0; i < adjacency_matrix_.size(); ++i) {
+            for (size_t j = 0; j < adjacency_matrix_[i].size(); ++j) {
+                if (adjacency_matrix_[i][j] != 0) {
+                    newRanks[i] += damping_factor_ * adjacency_matrix_[i][j] * ranks_[j];
                 }
             }
         }
         double delta = 0.0;
-        for (sizet i = 0; i < ranks.size(); ++i) {
-            delta += std::fabs(newRanks[i] - ranks[i]);
+        for (size_t i = 0; i < ranks_.size(); ++i) {
+            delta += fabs(newRanks[i] - ranks_[i]);
         }
 
-        ranks = newRanks;
-
-        if (delta < tolerance) {
+        if (isConverged(newRanks, tolerance)) {
             break;
         }
+
+        ranks_ = newRanks;
+    }
+    normalizeRanks();
+}
+
+double PageRank::getWebsiteRank(const string& websiteName) const {
+    auto it = pageIndices.find(websiteName);
+    if (it != pageIndices.end()) {
+        return ranks_[it->second];
+    } else {
+        throw invalid_argument("Website name not found in PageRank data.");
     }
 }
 
+const std::vector<double>& PageRank::getAllRanks() const {
+    return ranks_;
+}
 
+void PageRank::normalizeRanks() {
+    double sum = accumulate(ranks_.begin(), ranks_.end(), 0.0);
+    for (auto& rank : ranks_) {
+        rank /= sum;
+    }
+}
+
+bool PageRank::isConverged(const vector<double>& oldRanks, double tolerance) const {
+    double delta = 0.0;
+    for (size_t i = 0; i < ranks_.size(); ++i) {
+        delta += fabs(ranks_[i] - oldRanks[i]);
+    }
+    return delta < tolerance;
+}
+
+void PageRank::resetRanks() {
+    fill(ranks_.begin(), ranks_.end(), 1.0 / ranks_.size());
+}
