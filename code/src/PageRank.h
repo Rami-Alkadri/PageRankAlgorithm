@@ -4,20 +4,17 @@
 #include <string>
 #include <unordered_map>
 
-
 using namespace std;
-
-
 
 class PageRank {
     public:
         PageRank(const string& csvfile, double dfact);
         unordered_map<int, int> getOutlinkCounts();
         vector<vector<double>> getAdjacencyMatrix();
-        std::vector<double> multiplyMatrixByVector(const std::vector<double>& vec);
+        vector<double> multiplyMatrixByVector(const std::vector<double>& vec);
         void calculatePageRank(int maxIterations, double tolerance);
         double getWebsiteRank(const std::string& websiteName) const;
-        const std::vector<double>& getAllRanks() const;
+        const vector<double>& getAllRanks() const;
     private:
         double damping_factor_;
         vector<vector<double>> adjacency_matrix_;
