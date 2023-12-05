@@ -93,10 +93,10 @@ void PageRank::calculatePageRank(int maxIterations, double tolerance) {
                 }
             }
         }
-        double delta = 0.0;
-        for (size_t i = 0; i < ranks_.size(); ++i) {
-            delta += fabs(newRanks[i] - ranks_[i]);
-        }
+        // double delta = 0.0;
+        // for (size_t i = 0; i < ranks_.size(); ++i) {
+        //     delta += fabs(newRanks[i] - ranks_[i]);
+        // }
 
         if (isConverged(newRanks, tolerance)) {
             break;

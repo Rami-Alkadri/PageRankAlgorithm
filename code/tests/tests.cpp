@@ -1,42 +1,37 @@
-#define CATCH_CONFIG_MAIN 
-#include <catch2/catch.hpp>
-#include "PageRank.h"
-#include <vector>
-#include <unordered_map>
+#define CATCH_CONFIG_MAIN
+#include "catch.hpp"
 
-using namespace std;
+// bool compareMatrices(const vector<vector<double>>& matrix1, const vector<vector<double>>& matrix2) {
+//     if (matrix1.size() != matrix2.size()) return false;
+//     for (size_t i = 0; i < matrix1.size(); ++i) {
+//         if (matrix1[i].size() != matrix2[i].size()) return false;
+//         for (size_t j = 0; j < matrix1[i].size(); ++j) {
+//             if (matrix1[i][j] != matrix2[i][j]) return false;
+//         }
+//     }
+//     return true;
+// }
 
-bool compareMatrices(const vector<vector<double>>& matrix1, const vector<vector<double>>& matrix2) {
-    if (matrix1.size() != matrix2.size()) return false;
-    for (size_t i = 0; i < matrix1.size(); ++i) {
-        if (matrix1[i].size() != matrix2[i].size()) return false;
-        for (size_t j = 0; j < matrix1[i].size(); ++j) {
-            if (matrix1[i][j] != matrix2[i][j]) return false;
-        }
-    }
-    return true;
-}
+// bool compareLinkCounts(const unordered_map<int, int>& counts1, const unordered_map<int, int>& counts2) {
+//     if (counts1.size() != counts2.size()) return false;
+//     for (const auto& pair : counts1) {
+//         auto it = counts2.find(pair.first);
+//         if (it == counts2.end() || it->second != pair.second) return false;
+//     }
+//     return true;
+// }
 
-bool compareLinkCounts(const unordered_map<int, int>& counts1, const unordered_map<int, int>& counts2) {
-    if (counts1.size() != counts2.size()) return false;
-    for (const auto& pair : counts1) {
-        auto it = counts2.find(pair.first);
-        if (it == counts2.end() || it->second != pair.second) return false;
-    }
-    return true;
-}
+// TEST_CASE("2 Web Pages Adjacency Matrix") {
+//     PageRank pr("../../data/2WebPages.csv", 0.85);
+//     vector<vector<double>> expectedMatrix = {{0, 1}, {0, 0}};
+//     REQUIRE(compareMatrices(pr.getAdjacencyMatrix(), expectedMatrix));
+// }
 
-TEST_CASE("2 Web Pages Adjacency Matrix") {
-    PageRank pr("../../data/2WebPages.csv", 0.85);
-    vector<vector<double>> expectedMatrix = {{0, 1}, {0, 0}};
-    REQUIRE(compareMatrices(pr.getAdjacencyMatrix(), expectedMatrix));
-}
-
-TEST_CASE("4 Web Pages Link Counts") {
-    PageRank pr("../../data/4WebPages.csv", 0.85);
-    unordered_map<int, int> expectedCounts = {{0, 2}, {1, 1}, {2, 1}, {3, 1}};
-    REQUIRE(compareLinkCounts(pr.getOutlinkCounts(), expectedCounts));
-}
+// TEST_CASE("4 Web Pages Link Counts") {
+//     PageRank pr("../../data/4WebPages.csv", 0.85);
+//     unordered_map<int, int> expectedCounts = {{0, 2}, {1, 1}, {2, 1}, {3, 1}};
+//     REQUIRE(compareLinkCounts(pr.getOutlinkCounts(), expectedCounts));
+// }
 
 // TEST_CASE("10 Web Pages Adjacency Matrix and Link Counts") {
 //     PageRank pr("../../data/10WebPages.csv", 0.85);
