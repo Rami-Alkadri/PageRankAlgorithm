@@ -1,4 +1,7 @@
 #include "PageRank.h"
+#include <numeric>
+#include <cmath> 
+#include <stdexcept>
 
 using namespace std;
 
@@ -57,4 +60,5 @@ vector<vector<double>>  PageRank::getAdjacencyMatrix() {
 unordered_map<int, int> PageRank::getOutlinkCounts() {
     return outlink_count_;
 }
+
 
