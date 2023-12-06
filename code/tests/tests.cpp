@@ -95,7 +95,12 @@ TEST_CASE("Test Constructor on 4 Webpages File") {
    std::cout << "A is index: " << p.getWebsiteIndex("A") << " B is index: " 
     << p.getWebsiteIndex("B") << " C is index: " << p.getWebsiteIndex("C") << " D is index: " 
     << p.getWebsiteIndex("D") << std::endl;
-   std::vector<std::vector<double>> adj = {{0,0,.5,0}, {.5,0,0,0}, {.5,1,0,1}, {0,0,.5,0}};
+   std::vector<std::vector<double>> adj = {
+//source   A    B   C    D 
+          {0  , .5 ,  .33,  1}, // to A
+          {.5  , 0 ,  .33,  0}, // to B
+          {.5  ,.5  ,0  ,  0}, // to C
+          {0  ,0  , .33 ,  0}}; // to D
    REQUIRE(p.getAdjacencyMatrix() == adj);
 }
 
@@ -116,7 +121,6 @@ TEST_CASE("Page Rank Calculation 2x2") {
       vector<double> expectedPageRankVect = {0.222, 0.778};
 
       REQUIRE(final_ranks == expectedPageRankVect);
-
 
 }
 
