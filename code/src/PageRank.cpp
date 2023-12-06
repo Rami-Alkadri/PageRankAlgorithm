@@ -80,7 +80,7 @@ unordered_map<int, int> PageRank::getOutlinkCounts() {
     return outlink_count_;
 }
 
-void PageRank::calculatePageRank(int maxIterations, double tolerance) {
+void PageRank::calculatePageRank(int maxIterations, double tolerance) { // to test
     vector<double> newRanks(ranks_.size(), 1.0 / ranks_.size());
 
     for (int iter = 0; iter < maxIterations; ++iter) {
@@ -107,7 +107,7 @@ void PageRank::calculatePageRank(int maxIterations, double tolerance) {
     normalizeRanks();
 }
 
-double PageRank::getWebsiteRank(const string& websiteName) const {
+double PageRank::getWebsiteRank(const string& websiteName) const { // to test
     auto it = pageIndices.find(websiteName);
     if (it != pageIndices.end()) {
         return ranks_[it->second];
