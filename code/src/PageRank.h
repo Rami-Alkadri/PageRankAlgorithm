@@ -16,6 +16,7 @@ class PageRank {
         void calculatePageRank(int maxIterations, double tolerance);
         double getWebsiteRank(const std::string& websiteName) const;
         const vector<double>& getAllRanks() const;
+        int getWebsiteIndex(std::string website);
     private:
         double damping_factor_;
         vector<vector<double>> adjacency_matrix_;
