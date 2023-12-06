@@ -9,7 +9,7 @@ Youtube,Amazon
 Twitter,Amazon
 Twitter,Netflix
 Twitter,Reddit
-Reddit,Zoom
+Reddit,Twitter
 Reddit,Google
 Linkedin,Pinterest
 Linkedin,Youtube
@@ -22,10 +22,10 @@ Pinterest,Linkedin
 Wikipedia,Youtube
 Wikipedia,Netflix
 Google,Amazon
-Youtube,Google
-Reddit,Linkedin
-Linkedin,Netflix
-Netflix,Zoom
-Zoom,Pinterest
-Pinterest,Wikipedia
-Wikipedia,Amazon
+Google,Pinterest
+Google,Linkedin
+Twitter,Pinterest
+Zoom,Google
+Google,Wikipedia
+Wikipedia,Google
+Amazon,Reddit
