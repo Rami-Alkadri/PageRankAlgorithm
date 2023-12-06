@@ -100,6 +100,30 @@ TEST_CASE("Test Constructor on 4 Webpages File") {
 }
 
 
+
+TEST_CASE("Page Rank Calculation 2x2") {
+    // this is the matrix we are working with just for ease of understanding
+    vector<vector<double>> normalizedAdjacencyMatrix = {
+//source   A    B 
+          {0  , 0}, // to A
+          {1  , 0}, // to B
+    };
+
+      
+  //from just looking at it, we can see A is the destination of 3 links, so we can maybe guess it will have the largest pagerank
+  //D is the destination of only one link, so it may have the smallest pagerank.
+  
+      PageRank PR2("./data/2WebPages.csv",0.85);
+      PR2.calculatePageRank(100, 0.001);
+      const std::vector<double>& final_ranks = PR2.getAllRanks();
+
+      vector<double> expectedPageRankVect = {0.222, 0.778};
+
+      REQUIRE(final_ranks == expectedPageRankVect);
+
+
+}
+
 TEST_CASE("Page Rank Calculation 4x4") {
     // this is the matrix we are working with just for ease of understanding
     vector<vector<double>> normalizedAdjacencyMatrix = {
@@ -117,7 +141,7 @@ TEST_CASE("Page Rank Calculation 4x4") {
       PR.calculatePageRank(100, 0.001);
       const std::vector<double>& final_ranks = PR.getAllRanks();
 
-      vector<double> expectedPageRankVect = {0.33, 0.26, 0.29, 0.12};
+      vector<double> expectedPageRankVect = {0.331, 0.260, 0.289, 0.119};
 
       REQUIRE(final_ranks == expectedPageRankVect);
 
