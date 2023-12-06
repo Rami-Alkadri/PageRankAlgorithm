@@ -108,11 +108,7 @@ TEST_CASE("Page Rank Calculation 2x2") {
           {0  , 0}, // to A
           {1  , 0}, // to B
     };
-
-      
-  //from just looking at it, we can see A is the destination of 3 links, so we can maybe guess it will have the largest pagerank
-  //D is the destination of only one link, so it may have the smallest pagerank.
-  
+    // Reasonably, B should have the larger Page Rank
       PageRank PR2("./data/2WebPages.csv",0.85);
       PR2.calculatePageRank(100, 0.001);
       const std::vector<double>& final_ranks = PR2.getAllRanks();
