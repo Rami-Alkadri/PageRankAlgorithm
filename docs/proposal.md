@@ -13,29 +13,33 @@ When properly implemented, the PageRank Algorithm receives a csv of links in the
 ## Following all reside within PageRank Class: 
 
 ## Function: matrixMultiplier
-## Description: This function multiplies two matrices, and returns the product. Before doing so, it checks if the two provided matrices can mathematically be multiplied.
+## Description: This function multiplies a matrix and a vector, and returns the product. Before doing so, it checks if the two provided matrices can mathematically be multiplied.
 ### Inputs: Two Matrices A and B.
-- std::vector<std::vector<int>>& A: The first matrix, a reference so as to not make another copy.
-- std::vector<std::vector<int>>& B: The second matrix.
+- vector<vector<<std::vector<double>>>& A: The first matrix, a reference so as to not make another copy.
+- vector<vector<<std::vector<double>>>& B: Vector.
 ### Output: The product of the two matrices if possible, a warning if not.
-- std::vector<std::vector<int>>: Product matrix.
+- vector<double>: Product vector.
 
 ## Constructor: pageRank
-## Description: This constructor initializes the adjacency matrix of the pageRank class from the given csv. A[i][j] will be 1 if there is an edge going from link i to link j, and 0 otherwise. It also initializes the pageRankValues 1-d vector with temporary values. 
-## Input: csvFile containing lines of the format "source, target".
-## Output: None.
+## Description: This constructor initializes the adjacency matrix of the pageRank class from the given csv. A[i][j] will be 1 if there is an edge going from link j to link i, and 0 otherwise. It also initializes the pageRankValues 1-d vector with temporary values. Also populates outlink count which helps with normalization of the adjancency matrix.
+## Input: csvFile containing lines of the format "source, target", damping factor (typically 0.85).
+## Output: None, void.
 
 
-## Function: 
+# Function: calculatePageRank
+## Description: This function retriveves the normalized adjacency matrix and multiplies it repeatedly with a ranks vector. The ranks vector is updated with each iteration. After convergence is observed (or maximumIterations is reached), we break, and are left with the final ranks vector.
+## Input: maxIterations-> number of times you want to multiply the normalized adjacency matrix by the 1d page rank (ranks) vector. We use a max of a 100, just to make sure that we observe convergence. Tolerance->used to check whether convergence has occured.
+## Output: None, populates ranks vector (normalizes it too).
 
-
-
-
+# Function: getWebsiteRank
+## Input: string websiteName.
+## Output: Integer, that labels the position of the website among the Dataset according to importance calculated by the PageRank.
+## Description: First steps, creates a pairing of website name and normalized rank, puts it in a vector. Orders its in descrending order, and then it returns the appropriate position according to the string in question.
 
 
 
 ## Test Cases
-Our test cases will measure the algorithm's ability to test different similarity scores between 2 documents. There will be a test case with identical documents, one with 90% similar documents, one with 50% similar documents, and one with <10% similar documents. Additionally, our test cases will test the algorithm's ability to compare multiple documents at once, where the input will have 10 documents with the first document listed being the baseline comparator, and the other documents will be compared to the baseline.
+Our test cases will measure the algorithm's ability to rank different links/codes/strings according to its relative importance using a PageRank algorithm approach. We test our aglorithm with a plethora of different datasets. Our test cases revolve around checking the success of our matrix multiplication function, PageRank constructor and PageRank calculator. Our test cases for matrix multiplication multiply vectors of different sizes (both valid and invalid) against appropriate matrices. These are tested with the use of online matrix multiplication calculators. Our PageRank Constructor test cases make sure that we store a correct and normalized adjacency matrix populated by csvs of varying sizes. Lastly our PageRank Calculator depends on the success of the constructor tests, and goes beyond that, by making sure the PageRank vector is calculated correctly. Also, within these test cases, we also test the functionality to label links/codes/strings with their respective position (regarding importance) in their datasets. Our PageRank calculator is tested using Python, the code is a little different, and there is also the manual aspect of writing down the adjacency matrix from sight.
 
 # Data Description
 
