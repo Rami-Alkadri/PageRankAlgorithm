@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 void roundVectorValues(std::vector<double>& vec, int decimalPlaces) {
     double scale = std::pow(10.0, decimalPlaces);
     for (auto& val : vec) {
@@ -148,7 +147,8 @@ TEST_CASE("Page Rank Calculation 2x2") {
       vector<double> expectedPageRankVect = {0.351, 0.649};
       roundVectorValues(final_ranks, 3);
       REQUIRE(final_ranks == expectedPageRankVect);
-
+      REQUIRE(PR2.getWebsiteRank("A") == 2);
+      REQUIRE(PR2.getWebsiteRank("B") == 1);
 }
 
 TEST_CASE("Page Rank Calculation 4x4") {
@@ -171,7 +171,10 @@ TEST_CASE("Page Rank Calculation 4x4") {
       vector<double> expectedPageRankVect = {0.332, 0.260, 0.289, 0.119};
       roundVectorValues(final_ranks, 3);
       REQUIRE(final_ranks == expectedPageRankVect);
-
+      REQUIRE(PR.getWebsiteRank("A") == 1);
+      REQUIRE(PR.getWebsiteRank("B") == 3);
+      REQUIRE(PR.getWebsiteRank("C") == 2);
+      REQUIRE(PR.getWebsiteRank("D") == 4);
 }
 
 TEST_CASE("Page Rank Calculation 10x10") {
@@ -190,11 +193,13 @@ TEST_CASE("Page Rank Calculation 10x10") {
     } */
       PageRank PR("./data/10WebPages.csv",0.85);
       PR.calculatePageRank(100, 0.001);
-      const std::vector<double>& final_ranks = PR.getAllRanks();
+      std::vector<double> final_ranks = PR.getAllRanks();
 
-      vector<double> expectedPageRankVect = {0.14, 0.153, 0.137, 0.053, 0.123, 0.098, 0.131, 0.037, 0.113, 0.015};
-
+      vector<double> expectedPageRankVect = {0.140, 0.153, 0.137, 0.053, 0.123, 0.098, 0.131, 0.037, 0.113, 0.015};
+      roundVectorValues(final_ranks, 3);
       REQUIRE(final_ranks == expectedPageRankVect);
-
+      REQUIRE(PR.getWebsiteRank("Google") == 1);
+      REQUIRE(PR.getWebsiteRank("Amazon") == 2);
+      REQUIRE(PR.getWebsiteRank("Wikipedia") == 9);
 }
 
