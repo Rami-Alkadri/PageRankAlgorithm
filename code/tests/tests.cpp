@@ -114,8 +114,8 @@ TEST_CASE("Page Rank Calculation 4x4") {
   //D is the destination of only one link, so it may have the smallest pagerank.
   
       PageRank PR("./data/4WebPages.csv",0.85);
-      PageRank::calculatePageRank(100, 0.001);
-      const std::vector<double>& final_ranks = PageRank::getAllRanks();
+      PR.calculatePageRank(100, 0.001);
+      const std::vector<double>& final_ranks = PR.getAllRanks();
 
       vector<double> expectedPageRankVect = {0.33, 0.26, 0.29, 0.12};
 
