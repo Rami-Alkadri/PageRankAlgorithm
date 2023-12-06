@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <set>
+#include <algorithm>
 
 using namespace std;
 
@@ -109,15 +110,6 @@ void PageRank::calculatePageRank(int maxIterations, double tolerance) { // to te
     normalizeRanks();
 }
 
-double PageRank::getWebsiteRank(const string& websiteName) const { // to test
-    auto it = pageIndices.find(websiteName);
-    if (it != pageIndices.end()) {
-        return ranks_[it->second];
-    } else {
-        throw invalid_argument("Website name not found in PageRank data.");
-    }
-}
-
 const std::vector<double>& PageRank::getAllRanks() const {
     return ranks_;
 }
@@ -141,4 +133,25 @@ void PageRank::resetRanks() {
     fill(ranks_.begin(), ranks_.end(), 1.0 / ranks_.size());
 }
 
-int PageRank::getWebsiteIndex(std::string website) {return pageIndices[website];}
+int PageRank::getWebsiteRank(const string& websiteName) const {
+    // Create a vector of pairs (website name, rank)
+    vector<pair<string, double>> websiteRanks;
+    for (const auto& pair : pageIndices) {
+        websiteRanks.emplace_back(pair.first, ranks_[pair.second]);
+    }
+
+    // Sort the vector in descending order of rank
+    sort(websiteRanks.begin(), websiteRanks.end(), 
+         [](const pair<string, double>& a, const pair<string, double>& b) {
+             return a.second > b.second;
+         });
+
+    // Find the rank position of the specified website
+    for (int i = 0; i < websiteRanks.size(); ++i) {
+        if (websiteRanks[i].first == websiteName) {
+            return i + 1; // Rank position (1-based index)
+        }
+    }
+
+    throw invalid_argument("Website name not found in PageRank data.");
+}

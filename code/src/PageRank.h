@@ -14,9 +14,9 @@ class PageRank {
         unordered_map<int, int> getOutlinkCounts();
         vector<vector<double>> getAdjacencyMatrix();
         void calculatePageRank(int maxIterations, double tolerance);
-        double getWebsiteRank(const std::string& websiteName) const;
         const vector<double>& getAllRanks() const;
         int getWebsiteIndex(std::string website);
+        int getWebsiteRank(const string& websiteName) const;
     private:
         double damping_factor_;
         vector<vector<double>> adjacency_matrix_;

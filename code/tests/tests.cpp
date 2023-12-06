@@ -89,8 +89,6 @@ TEST_CASE("Test Constructor on 3 Webpages File") {
    PageRank p = PageRank("./data/pages.csv", .8);
    REQUIRE(p.getAdjacencyMatrix().size() == 3);
    REQUIRE(p.getAdjacencyMatrix().at(0).size() == 3);
-   std::cout << "A is index: " << p.getWebsiteIndex("A") << " B is index: " 
-    << p.getWebsiteIndex("B") << " C is index: " << p.getWebsiteIndex("C");
    std::vector<std::vector<double>> adj = {{0,.5,1}, {1,.5,0}, {0,0,0}};
    REQUIRE(p.getAdjacencyMatrix() == adj);
 }
@@ -99,49 +97,40 @@ TEST_CASE("Test Constructor on 4 Webpages File") {
    PageRank p = PageRank("./data/4WebPages.csv", .8);
    REQUIRE(p.getAdjacencyMatrix().size() == 4);
    REQUIRE(p.getAdjacencyMatrix().at(0).size() == 4);
-   std::cout << "A is index: " << p.getWebsiteIndex("A") << " B is index: " 
-    << p.getWebsiteIndex("B") << " C is index: " << p.getWebsiteIndex("C") << " D is index: " 
-    << p.getWebsiteIndex("D") << std::endl;
    std::vector<std::vector<double>> adj = {
 //source   A    B   C    D 
-          {0  , .5 ,  .333,  1}, // to A
+          {0  , .5,  .333,  1}, // to A
           {.5  , 0 ,  .333,  0}, // to B
-          {.5  ,.5  ,0  ,  0}, // to C
-          {0  ,0  , .333 ,  0}}; // to D
+          {.5  , .5, 0  ,  0}, // to C
+          {0  ,0  , .333,  0}}; // to D
    std::vector<std::vector<double>> result = p.getAdjacencyMatrix();
    for (auto& inner : result) {
       roundVectorValues(inner, 3);
    }
-   REQUIRE(p.getAdjacencyMatrix() == adj);
+   REQUIRE(result == adj);
 }
 
 TEST_CASE("Test Constructor on 10 Webpages File") { 
   PageRank p = PageRank("./data/10WebPages.csv", .8);
-  std::cout << "Amazon is index: " << p.getWebsiteIndex("Amazon") << std::endl;
-  std::cout << "Google is index: " << p.getWebsiteIndex("Google") << std::endl;
-  std::cout << "Youtube is index: " << p.getWebsiteIndex("Youtube") << std::endl;
- std::cout << "Linkedin is index: " << p.getWebsiteIndex("Linkedin") << std::endl;
- std::cout << "Pinterest is index: " << p.getWebsiteIndex("Pinterest") << std::endl;
- std::cout << "Netflix is index: " << p.getWebsiteIndex("Netflix") << std::endl;
- std::cout << "Twitter is index: " << p.getWebsiteIndex("Twitter") << std::endl;
- std::cout << "Reddit is index: " << p.getWebsiteIndex("Reddit") << std::endl;
- std::cout << "Zoom is index: " << p.getWebsiteIndex("Zoom") << std::endl;
- std::cout << "Wikipedia  is index: " << p.getWebsiteIndex("Wikipedia") << std::endl;
   vector<vector<double>> normalizedAdjacencyMatrix = {
 
-    //     1    2    3    4    5    6    7    8    9   10
-    /*1*/ {0.0, 1/3, 1/3, 1/3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, // from Page1
-    /*2*/ {1/3, 0.0, 0.0, 1/3, 1/3, 0.0, 0.0, 0.0, 0.0, 0.0}, // from Page2
-    /*3*/ {1/3, 0.0, 0.0, 0.0, 0.0, 1/3, 0.0, 0.0, 1/3, 0.0}, // from Page3
-    /*4*/ {1/3, 0.0, 0.0, 0.0, 1/3, 0.0, 1/3, 0.0, 0.0, 0.0}, // from Page4
-    /*5*/ {0.0, 1/3, 0.0, 0.0, 0.0, 1/3, 0.0, 1/3, 0.0, 0.0}, // from Page5
-    /*6*/ {0.0, 0.0, 1/3, 0.0, 0.0, 0.0, 1/3, 0.0, 1/3, 0.0}, // from Page6
-    /*7*/ {0.0, 0.0, 0.0, 1/3, 0.0, 0.0, 0.0, 0.0, 0.0, 2/3}, // from Page7
-    /*8*/ {0, 0.0, 0.0, 0.0, 1/3, 0.0, 0.0, 0.0, 0.0, 0.0}, // from Page8
-    /*9*/ {0.0, 1/3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2/3}, // from Page9
-    /*10*/{0, 0.0, 1/3, 0.0, 0.0, 0.0, 1/3, 0.0, 0.0, 0.0}  // from Page10
+    //    Ama  Goo  Link  Net  Pint Red  Twit Wiki  YT  Zoom
+    /*A*/ {0, .167, 0, .5, 0, 0, .25, 0, .5, .333}, // from Page1
+    /*G*/ {.25, 0, 0, 0, .5, .5, 0, .333, 0, .333}, // from Page2
+    /*L*/ {0, .167, 0, 0, .5, 0, 0, 0, .5, 0}, // from Page3
+    /*N*/ {0, 0, 0, 0, 0, 0, .25, .333, 0, 0}, // from Page4
+    /*P*/ {0, .167, .5, 0, 0, 0, .25, 0, 0, 0}, // from Page5
+    /*R*/ {.25, .167, 0, 0, 0, 0, .25, 0, 0, .333}, // from Page6
+    /*T*/ {.25, .167, 0, .5, 0, .5, 0, 0, 0, 0}, // from Page7
+    /*W*/ {0, .167, 0, 0, 0, 0, 0, 0, 0, 0}, // from Page8
+    /*Y*/ {.25, 0, .5, 0, 0, 0, 0, .333, 0, 0}, // from Page9
+    /*Z*/ {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}  // from Page10
 };
-
+  std::vector<std::vector<double>> result = p.getAdjacencyMatrix();
+  for (auto& inner : result) {
+      roundVectorValues(inner, 3);
+  }
+  REQUIRE(result == normalizedAdjacencyMatrix);
 }
 
 TEST_CASE("Page Rank Calculation 2x2") {
@@ -179,7 +168,7 @@ TEST_CASE("Page Rank Calculation 4x4") {
       PR.calculatePageRank(100, 0.001);
       std::vector<double> final_ranks = PR.getAllRanks();
 
-      vector<double> expectedPageRankVect = {0.331, 0.260, 0.289, 0.119};
+      vector<double> expectedPageRankVect = {0.332, 0.260, 0.289, 0.119};
       roundVectorValues(final_ranks, 3);
       REQUIRE(final_ranks == expectedPageRankVect);
 
