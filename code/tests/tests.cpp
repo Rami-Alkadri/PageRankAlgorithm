@@ -1,79 +1,77 @@
-#define CATCH_CONFIG_MAIN
+#define CATCH_CONFIG_MAIN 
 #include "catch.hpp"
+#include "PageRank.h"
 
-// bool compareMatrices(const vector<vector<double>>& matrix1, const vector<vector<double>>& matrix2) {
-//     if (matrix1.size() != matrix2.size()) return false;
-//     for (size_t i = 0; i < matrix1.size(); ++i) {
-//         if (matrix1[i].size() != matrix2[i].size()) return false;
-//         for (size_t j = 0; j < matrix1[i].size(); ++j) {
-//             if (matrix1[i][j] != matrix2[i][j]) return false;
-//         }
-//     }
-//     return true;
-// }
+using namespace std;
 
-// bool compareLinkCounts(const unordered_map<int, int>& counts1, const unordered_map<int, int>& counts2) {
-//     if (counts1.size() != counts2.size()) return false;
-//     for (const auto& pair : counts1) {
-//         auto it = counts2.find(pair.first);
-//         if (it == counts2.end() || it->second != pair.second) return false;
-//     }
-//     return true;
-// }
 
-// TEST_CASE("2 Web Pages Adjacency Matrix") {
-//     PageRank pr("../../data/2WebPages.csv", 0.85);
-//     vector<vector<double>> expectedMatrix = {{0, 1}, {0, 0}};
-//     REQUIRE(compareMatrices(pr.getAdjacencyMatrix(), expectedMatrix));
-// }
+TEST_CASE("Small Matrix Vector Multiplication") {
+    //identity matrix
 
-// TEST_CASE("4 Web Pages Link Counts") {
-//     PageRank pr("../../data/4WebPages.csv", 0.85);
-//     unordered_map<int, int> expectedCounts = {{0, 2}, {1, 1}, {2, 1}, {3, 1}};
-//     REQUIRE(compareLinkCounts(pr.getOutlinkCounts(), expectedCounts));
-// }
+    vector<double> expectedMatrix = {0.5, 0.5};
+    vector<vector<double>> inputMatrix = {{1, 0}, {0, 1}}; // {1,0} row 0, {0,1} row 1
+    vector<double> inputVector = {0.5, 0.5};
+    vector<double> result = multiplyMatrixByVector(inputMatrix, inputVector);
+    REQUIRE(result == expectedMatrix);
 
-// TEST_CASE("10 Web Pages Adjacency Matrix and Link Counts") {
-//     PageRank pr("../../data/10WebPages.csv", 0.85);
-//     // Define the expected adjacency matrix and link counts for the 10 web pages
-//     vector<vector<double>> expectedMatrix = {/* Fill in the expected matrix */};
-//     unordered_map<int, int> expectedCounts = {/* Fill in the expected link counts */};
-//     REQUIRE(compareMatrices(pr.getAdjacencyMatrix(), expectedMatrix));
-//     REQUIRE(compareLinkCounts(pr.getOutlinkCounts(), expectedCounts));
-// }
-// TEST_CASE("Empty CSV File") {
-//     REQUIRE_THROWS_AS(PageRank("empty.csv", 0.85), std::runtime_error);
-// }
+  //normal
+    vector<double> expectedMatrix2 = {10.5, 10};
+    vector<vector<double>> inputMatrix2 = {{4, 0.5}, {0, 2}};
+    vector<double> inputVector2 = {2, 5};
+    vector<double> result2 = multiplyMatrixByVector(inputMatrix2, inputVector2);
+    REQUIRE(result2 == expectedMatrix2);
 
-// TEST_CASE("Invalid CSV File Format") {
-//     REQUIRE_THROWS_AS(PageRank("invalid_format.csv", 0.85), std::runtime_error); 
-// }
+//   //invalid multiplication, size issues...
+    vector<vector<double>> invalid_sized_matrix = {{0.5, 0.5, 0.5, 0.5}, {1}};
+    REQUIRE_THROWS_AS(multiplyMatrixByVector(invalid_sized_matrix, inputVector), invalid_argument);
 
-// TEST_CASE("Matrix Multiplication") {
-//     PageRank pr("webpages.csv", 0.85);
-//     std::vector<double> testVector = {1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-//     std::vector<double> result = pr.multiplyMatrix(testVector); 
-//     std::vector<double> expected = {0.1, 0.15, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.05}; 
-//     REQUIRE(result == expected);
-// }
+}
 
-// TEST_CASE("PageRank Calculation") {
-//     PageRank pr("webpages.csv", 0.85);
-//     pr.calculatePageRank();
-//     std::vector<double> ranks = pr.getPageRanks(); 
-//     REQUIRE(ranks.size() == 10);
-// }
+TEST_CASE("Medium Matrix Vector Multiplication") {
+    //identity matrix 5x5
+    vector<double> expectedMatrix = {0.5, 0.5, 0.5, 0.5, 0.5};
+    vector<vector<double>> inputMatrix = {{1, 0, 0, 0, 0}, {0,1,0,0,0}, {0,0,1,0,0}, {0,0,0,1,0}, {0,0,0,0,1}}; 
+    vector<double> inputVector = {0.5, 0.5, 0.5, 0.5, 0.5};
+    vector<double> result = multiplyMatrixByVector(inputMatrix, inputVector);
+    REQUIRE(result == expectedMatrix);
 
-// TEST_CASE("Damping Factor Effect") {
-//     PageRank pr1("webpages.csv", 0.85);
-//     PageRank pr2("webpages.csv", 0.95);
-//     pr1.calculatePageRank();
-//     pr2.calculatePageRank();
-//     REQUIRE(pr1.getPageRanks() != pr2.getPageRanks());
-// }
+  //normal
+    vector<double> expectedMatrix2 = {37.45, 19.4, 35.55, 27.7, 36.9};
+    vector<vector<double>> inputMatrix2 = {{3,2,6,7,1}, {1,0.5,2,4,2.5}, {2,9,1,1,6}, {3,4,1.5,4,3.5}, {1,2,7,2,4}};
+    vector<double> inputVector2 = {0.4, 2, 3, 1.75, 2};
+    vector<double> result2 = multiplyMatrixByVector(inputMatrix2, inputVector2);
+    REQUIRE(result2 == expectedMatrix2);
 
-// TEST_CASE("Adjacency Matrix Generation") {
-//     PageRank pr("webpages.csv", 0.85);
-//     auto adjacencyMatrix = pr.getAdjacencyMatrix(); 
-//     REQUIRE(adjacencyMatrix.size() == 10);
-// }
+  //invalid multiplication, size issues...
+    vector<vector<double>>invalid_sized_matrix = {{1, 1, 1, 1, 1},{1, 1, 1, 1, 1},{1, 1, 1, 1, 1},{1, 1, 1, 1, 1},{1, 1, 1, 1, 1},}; // 5x5
+    vector<double> bad_input1 = {1}; // 1x1
+    vector<double> bad_input2 = {1,1,1,1}; // 4x1 matrix
+
+    REQUIRE_THROWS_AS(multiplyMatrixByVector(invalid_sized_matrix, bad_input1), invalid_argument);
+    REQUIRE_THROWS_AS(multiplyMatrixByVector(invalid_sized_matrix, bad_input2), invalid_argument);
+}
+TEST_CASE("Large Matrix Vector Multiplication") {
+  
+    vector<double> expectedMatrix = {101.3, 90.65, 57.9, 73.8, 75.4, 41.18, 42.2, 54, 95.62, 28.6, 65.02, 30.52, 63, 84.4, 54.3};
+    vector<vector<double>> inputMatrix = 
+                                    {{3,0,3,0,2,0,0,3,0,3,0,10,3,0,0},
+                                    {2,4,0,1,0,0,0,0,1,3.6,2,0,0,9.3,2},
+                                    {1,5,0,0,0,0,7.2,3,0,0,0,2,0,0,3},
+                                    {0,4,0,1,3,5,5,0,1,0,5,5,1,0,0},
+                                    {5,5, 1, 2, 0, 2, 0, 5, 0, 0, 10, 0, 0, 2, 1},
+                                    {0, 2, 0, 0, 1, 5, 10, 0, 0, 3.9, 0, 0, 1, 0, 0},
+                                    {1, 0, 1, 0, 0, 3, 2, 1.6, 0, 0, 0, 2.4, 0, 2, 0},
+                                    {0, 0, 2, 2.5, 2, 1, 0 , 2, 10, 1, 0, 2, 0, 0, 1}, 
+                                    {3, 0, 2, 5, 0, 3, 0, 1, 0, 10, 0, 3, 0, 1.2, 3},
+                                    {0, 1.2, 3, 0, 0, 0, 2, 0, 5, 0, 1.2, 0, 2, 1,0},
+                                    {2, 0, 10, 0, 1.2, 3, 0, 1, 0, 0, 0, 3, 0, 0, 3}, 
+                                    {1, 2, 2, 0, 0, 1.2, 0, 2, 2, 1, 5, 0,1,0,0},
+                                    {0, 1.2, 3, 2, 0, 10, 0, 0, 0, 3, 2, 2, 0, 3, 0},
+                                    {0, 0 ,2, 5, 1, 0, 1, 2, 1.2, 0, 0, 5, 0, 1, 3},
+                                    {1,2,1, 0, 3, 0, 1, 0, 0, 1, 0, 3, 0, 3, 0}};
+    vector<double> inputVector = {2, 0.5, 1.5, 3, 3.1, 1.1, 2, 3, 1, 2.2, 2, 6, 3, 6.1, 6};
+    vector<double> result = multiplyMatrixByVector(inputMatrix, inputVector);
+    REQUIRE(result == expectedMatrix);
+
+}
+

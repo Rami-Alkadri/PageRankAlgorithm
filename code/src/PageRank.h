@@ -6,12 +6,13 @@
 
 using namespace std;
 
+vector<double> multiplyMatrixByVector(const vector<vector<double>>& adjacency_matrix, const vector<double>& vec);
+
 class PageRank {
     public:
         PageRank(const string& csvfile, double dfact);
         unordered_map<int, int> getOutlinkCounts();
         vector<vector<double>> getAdjacencyMatrix();
-        vector<double> multiplyMatrixByVector(const std::vector<double>& vec);
         void calculatePageRank(int maxIterations, double tolerance);
         double getWebsiteRank(const std::string& websiteName) const;
         const vector<double>& getAllRanks() const;

@@ -5,6 +5,21 @@
 
 using namespace std;
 
+vector<double> multiplyMatrixByVector(const vector<vector<double>>& adjacency_matrix, const vector<double>& vec) {
+    if (adjacency_matrix.empty() || adjacency_matrix[0].size() != vec.size()) {
+        throw invalid_argument("Matrix and vector dimensions do not match.");
+    }
+
+    vector<double> result(adjacency_matrix.size(), 0.0);
+
+    for (size_t i = 0; i < adjacency_matrix.size(); ++i) {
+        for (size_t j = 0; j < vec.size(); ++j) {
+            result[i] += adjacency_matrix[i][j] * vec[j];
+        }
+    }
+    return result;
+}
+
 void PageRank::buildAdjacencyMatrix(const string& filename) {
     ifstream file(filename);
     if (!file.is_open()) {
@@ -63,21 +78,6 @@ vector<vector<double>>  PageRank::getAdjacencyMatrix() {
 }
 unordered_map<int, int> PageRank::getOutlinkCounts() {
     return outlink_count_;
-}
-
-vector<double> PageRank::multiplyMatrixByVector(const vector<double>& vec) {
-    if (adjacency_matrix_.empty() || adjacency_matrix_[0].size() != vec.size()) {
-        throw invalid_argument("Matrix and vector dimensions do not match.");
-    }
-
-    vector<double> result(adjacency_matrix_.size(), 0.0);
-
-    for (size_t i = 0; i < adjacency_matrix_.size(); ++i) {
-        for (size_t j = 0; j < vec.size(); ++j) {
-            result[i] += adjacency_matrix_[i][j] * vec[j];
-        }
-    }
-    return result;
 }
 
 void PageRank::calculatePageRank(int maxIterations, double tolerance) {
