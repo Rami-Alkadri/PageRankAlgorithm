@@ -1,6 +1,8 @@
 #define CATCH_CONFIG_MAIN 
 #include "catch.hpp"
 #include "PageRank.h"
+#include <iostream>
+#include <filesystem>
 
 using namespace std;
 
@@ -73,5 +75,27 @@ TEST_CASE("Large Matrix Vector Multiplication") {
     vector<double> result = multiplyMatrixByVector(inputMatrix, inputVector);
     REQUIRE(result == expectedMatrix);
 
+}
+
+TEST_CASE("Test Constructor on 3 Webpages File") { 
+   PageRank p = PageRank("./data/pages.csv", .8);
+   REQUIRE(p.getAdjacencyMatrix().size() == 3);
+   REQUIRE(p.getAdjacencyMatrix().at(0).size() == 3);
+   std::cout << "A is index: " << p.getWebsiteIndex("A") << " B is index: " 
+    << p.getWebsiteIndex("B") << " C is index: " << p.getWebsiteIndex("C");
+   std::vector<std::vector<double>> adj = {{0,.5,1}, {1,.5,0}, {0,0,0}};
+   REQUIRE(p.getAdjacencyMatrix() == adj);
+}
+
+TEST_CASE("Test Constructor on 4 Webpages File") {   
+   std::cout << "Current path is " << std::filesystem::current_path() << '\n';
+   PageRank p = PageRank("./data/4WebPages.csv", .8);
+   REQUIRE(p.getAdjacencyMatrix().size() == 4);
+   REQUIRE(p.getAdjacencyMatrix().at(0).size() == 4);
+   std::cout << "A is index: " << p.getWebsiteIndex("A") << " B is index: " 
+    << p.getWebsiteIndex("B") << " C is index: " << p.getWebsiteIndex("C") << " D is index: " 
+    << p.getWebsiteIndex("D") << std::endl;
+   std::vector<std::vector<double>> adj = {{0,0,.5,0}, {.5,0,0,0}, {.5,1,0,1}, {0,0,.5,0}};
+   REQUIRE(p.getAdjacencyMatrix() == adj);
 }
 

@@ -2,6 +2,8 @@
 #include <numeric>
 #include <cmath> 
 #include <stdexcept>
+#include <iostream>
+#include <set>
 
 using namespace std;
 
@@ -22,47 +24,53 @@ vector<double> multiplyMatrixByVector(const vector<vector<double>>& adjacency_ma
 
 void PageRank::buildAdjacencyMatrix(const string& filename) {
     ifstream file(filename);
-    if (!file.is_open()) {
+    if (!file) {
         throw runtime_error("Unable to open file: " + filename);
     }
 
     string line, source, destination;
-    int pageIndex = 0;
 
+    // Skip the header line
+    getline(file, line);
+
+    // First pass: identify all unique pages
+    set<string> pages;
     while (getline(file, line)) {
-        std::istringstream iss(line);
-        if (!(iss >> source >> destination)) {
-            continue; 
-        }   
-
-        if (pageIndices.find(source) == pageIndices.end()) {
-            pageIndices[source] = pageIndex;
-            pageIndex++;
-            //Do we add vector at end once size is known?
-            adjacency_matrix_.push_back(std::vector<double>(pageIndex, 0.0));
+        istringstream iss(line);
+        if (getline(iss, source, ',') && getline(iss, destination)) {
+            pages.insert(source);
+            pages.insert(destination);
         }
-
-        if (pageIndices.find(destination) == pageIndices.end()) {
-            pageIndices[destination] = pageIndex;
-            pageIndex++;
-            for (auto &row : adjacency_matrix_) {
-                row.push_back(0.0);
-            }
-            adjacency_matrix_.push_back(std::vector<double>(pageIndex, 0.0));
-        }
-
-        int sourceIndex = pageIndices[source];
-        int destinationIndex = pageIndices[destination];
-
-        adjacency_matrix_[sourceIndex][destinationIndex] = 1.0;
-        outlink_count_[sourceIndex]++;
     }
 
+    // Initialize page indices and adjacency matrix
+    int pageIndex = 0;
+    for (const auto& page : pages) {
+        pageIndices[page] = pageIndex++;
+    }
+    adjacency_matrix_ = vector<vector<double>>(pageIndex, vector<double>(pageIndex, 0.0));
+
+    // Reset file read position to beginning
+    file.clear();
+    file.seekg(0);
+    getline(file, line); // Skip header again
+
+    // Second pass: build the adjacency matrix
+    while (getline(file, line)) {
+        istringstream iss(line);
+        if (getline(iss, source, ',') && getline(iss, destination)) {
+            int sourceIndex = pageIndices[source];
+            int destinationIndex = pageIndices[destination];
+            adjacency_matrix_[destinationIndex][sourceIndex] = 1.0;
+            outlink_count_[sourceIndex]++;
+        }
+    }
+
+    // Normalize the matrix
     for (auto &row : adjacency_matrix_) {
-        int index = &row - &adjacency_matrix_[0];
-        if (outlink_count_[index] > 0) {
-            for (auto &val : row) {
-                val /= outlink_count_[index];
+        for (size_t i = 0; i < row.size(); ++i) {
+            if (outlink_count_[i] > 0) {
+                row[i] /= outlink_count_[i];
             }
         }
     }
@@ -76,6 +84,7 @@ PageRank::PageRank(const string& csvfile, double dfact) : damping_factor_(dfact)
 vector<vector<double>>  PageRank::getAdjacencyMatrix() {
     return adjacency_matrix_;
 }
+
 unordered_map<int, int> PageRank::getOutlinkCounts() {
     return outlink_count_;
 }
@@ -86,24 +95,17 @@ void PageRank::calculatePageRank(int maxIterations, double tolerance) {
     for (int iter = 0; iter < maxIterations; ++iter) {
         fill(newRanks.begin(), newRanks.end(), (1.0 - damping_factor_) / ranks_.size());
 
-        for (size_t i = 0; i < adjacency_matrix_.size(); ++i) {
-            for (size_t j = 0; j < adjacency_matrix_[i].size(); ++j) {
-                if (adjacency_matrix_[i][j] != 0) {
-                    newRanks[i] += damping_factor_ * adjacency_matrix_[i][j] * ranks_[j];
-                }
-            }
-        }
-        // double delta = 0.0;
-        // for (size_t i = 0; i < ranks_.size(); ++i) {
-        //     delta += fabs(newRanks[i] - ranks_[i]);
-        // }
+        vector<double> rankContributions = multiplyMatrixByVector(adjacency_matrix_, ranks_);
 
+        for (size_t i = 0; i < newRanks.size(); ++i) {
+            newRanks[i] += damping_factor_ * rankContributions[i];
+        }
         if (isConverged(newRanks, tolerance)) {
             break;
         }
-
         ranks_ = newRanks;
     }
+
     normalizeRanks();
 }
 
@@ -138,3 +140,5 @@ bool PageRank::isConverged(const vector<double>& oldRanks, double tolerance) con
 void PageRank::resetRanks() {
     fill(ranks_.begin(), ranks_.end(), 1.0 / ranks_.size());
 }
+
+int PageRank::getWebsiteIndex(std::string website) {return pageIndices[website];}

@@ -1,2 +1,5 @@
 source,destination
 A,B
+C,A
+B,B
+B,A
