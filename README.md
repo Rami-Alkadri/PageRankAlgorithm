@@ -27,7 +27,9 @@ Video: Our final video can be found at ('/docs')
 4. To create a new executable, run 'make clean' then repeat steps 1 - 3.
 
 ## Input Data
-The input data must be a CSV file with the following format:\source,data\pageA,pageB
+The input data must be a CSV file with the following format:\
+source,data\
+pageA,pageB
 
 To construct a PageRank, simply input the name of the CSV file as a string in the constructor. 
 
