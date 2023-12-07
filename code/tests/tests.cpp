@@ -85,7 +85,7 @@ TEST_CASE("Large Matrix Vector Multiplication") {
 }
 
 TEST_CASE("Test Constructor on 3 Webpages File") { 
-   PageRank p = PageRank("./data/pages.csv", .8);
+   PageRank p = PageRank("./data/pages.csv", .85);
    REQUIRE(p.getAdjacencyMatrix().size() == 3);
    REQUIRE(p.getAdjacencyMatrix().at(0).size() == 3);
    std::vector<std::vector<double>> adj = {{0,.5,1}, {1,.5,0}, {0,0,0}};
@@ -93,7 +93,7 @@ TEST_CASE("Test Constructor on 3 Webpages File") {
 }
 
 TEST_CASE("Test Constructor on 4 Webpages File") {   
-   PageRank p = PageRank("./data/4WebPages.csv", .8);
+   PageRank p = PageRank("./data/4WebPages.csv", .85);
    REQUIRE(p.getAdjacencyMatrix().size() == 4);
    REQUIRE(p.getAdjacencyMatrix().at(0).size() == 4);
    std::vector<std::vector<double>> adj = {
@@ -114,16 +114,16 @@ TEST_CASE("Test Constructor on 10 Webpages File") {
   vector<vector<double>> normalizedAdjacencyMatrix = {
 
     //    Ama  Goo  Link  Net  Pint Red  Twit Wiki  YT  Zoom
-    /*A*/ {0, .167, 0, .5, 0, 0, .25, 0, .5, .333}, // from Page1
-    /*G*/ {.25, 0, 0, 0, .5, .5, 0, .333, 0, .333}, // from Page2
-    /*L*/ {0, .167, 0, 0, .5, 0, 0, 0, .5, 0}, // from Page3
-    /*N*/ {0, 0, 0, 0, 0, 0, .25, .333, 0, 0}, // from Page4
-    /*P*/ {0, .167, .5, 0, 0, 0, .25, 0, 0, 0}, // from Page5
-    /*R*/ {.25, .167, 0, 0, 0, 0, .25, 0, 0, .333}, // from Page6
-    /*T*/ {.25, .167, 0, .5, 0, .5, 0, 0, 0, 0}, // from Page7
-    /*W*/ {0, .167, 0, 0, 0, 0, 0, 0, 0, 0}, // from Page8
-    /*Y*/ {.25, 0, .5, 0, 0, 0, 0, .333, 0, 0}, // from Page9
-    /*Z*/ {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}  // from Page10
+    /*A*/ {0, .167, 0, .5, 0, 0, .25, 0, .5, .333}, 
+    /*G*/ {.25, 0, 0, 0, .5, .5, 0, .333, 0, .333}, 
+    /*L*/ {0, .167, 0, 0, .5, 0, 0, 0, .5, 0}, 
+    /*N*/ {0, 0, 0, 0, 0, 0, .25, .333, 0, 0}, 
+    /*P*/ {0, .167, .5, 0, 0, 0, .25, 0, 0, 0},
+    /*R*/ {.25, .167, 0, 0, 0, 0, .25, 0, 0, .333}, 
+    /*T*/ {.25, .167, 0, .5, 0, .5, 0, 0, 0, 0},
+    /*W*/ {0, .167, 0, 0, 0, 0, 0, 0, 0, 0}, 
+    /*Y*/ {.25, 0, .5, 0, 0, 0, 0, .333, 0, 0}, 
+    /*Z*/ {0, 0, 0, 0, 0, 0, 0, 0, 0, 0} 
 };
   std::vector<std::vector<double>> result = p.getAdjacencyMatrix();
   for (auto& inner : result) {

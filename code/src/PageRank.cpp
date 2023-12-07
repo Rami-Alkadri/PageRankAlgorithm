@@ -90,7 +90,7 @@ unordered_map<int, int> PageRank::getOutlinkCounts() {
     return outlink_count_;
 }
 
-void PageRank::calculatePageRank(int maxIterations, double tolerance) { // to test
+void PageRank::calculatePageRank(int maxIterations, double tolerance) { 
     vector<double> newRanks(ranks_.size(), 1.0 / ranks_.size());
 
     for (int iter = 0; iter < maxIterations; ++iter) {

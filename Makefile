@@ -3,20 +3,26 @@ CXXFLAGS = -std=c++17 -Wall -Icode/src
 
 # Source files
 SRCS = code/src/PageRank.cpp code/tests/tests.cpp
+MAIN_SRC = code/src/main.cpp
 OBJS = $(SRCS:.cpp=.o)
+MAIN_OBJ = $(MAIN_SRC:.cpp=.o)
 
-# Executable name
-EXEC = tests
+# Executable names
+TEST_EXEC = tests
+MAIN_EXEC = main
 
-all: $(EXEC)
+all: $(TEST_EXEC) $(MAIN_EXEC)
 
-$(EXEC): $(OBJS)
+$(TEST_EXEC): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $^
+
+$(MAIN_EXEC): $(OBJS) $(MAIN_OBJ)
+	$(CXX) $(CXXFLAGS) -o $@ $(MAIN_OBJ) $(filter-out code/tests/tests.o, $(OBJS))
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(EXEC)
+	rm -f $(OBJS) $(MAIN_OBJ) $(TEST_EXEC) $(MAIN_EXEC)
 
 .PHONY: all clean
