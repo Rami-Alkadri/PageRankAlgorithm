@@ -7,7 +7,7 @@ Source code: Location of the PageRank.h, PageRank.cpp and main.cpp files is foun
 Test code: Location of tests.cpp is found at ('/code/tests')
 
 ## Data
-Datasets: Location of datasets we used is found at ('/data'). Our data is comprived of randomly generated data and flight logs denoting a plane's flight from Airport A to Airport B. The Airports will act as pseudo websites in the context of this project.
+Datasets: Location of datasets we used is found at ('/data'). Our data is comprived of randomly generated data and flight logs denoting a plane's flight from Airport A to Airport B. The Airports will act as pseudo websites in the context of this project. Our data ranges from a size of 2 websites to 3400 websites.
 
 ## Deliverables
 Documents: Our proposal and written final report can be found at ('/docs')
@@ -27,9 +27,7 @@ Video: Our final video can be found at ('/docs')
 4. To create a new executable, run 'make clean' then repeat steps 1 - 3.
 
 ## Input Data
-The input data must be a CSV file with the following format:
-source,data
-pageA,pageB
+The input data must be a CSV file with the following format:\source,data\pageA,pageB
 
 To construct a PageRank, simply input the name of the CSV file as a string in the constructor. 
 
