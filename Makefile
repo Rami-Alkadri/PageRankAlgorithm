@@ -1,13 +1,11 @@
-CXX = g++  # or clang++ if you prefer
+CXX = g++  
 CXXFLAGS = -std=c++17 -Wall -Icode/src 
 
-# Source files
 SRCS = code/src/PageRank.cpp code/tests/tests.cpp
 MAIN_SRC = code/src/main.cpp
 OBJS = $(SRCS:.cpp=.o)
 MAIN_OBJ = $(MAIN_SRC:.cpp=.o)
 
-# Executable names
 TEST_EXEC = tests
 MAIN_EXEC = main
 
