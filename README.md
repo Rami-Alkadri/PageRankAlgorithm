@@ -23,7 +23,7 @@ Video: Our final video can be found at ('/docs')
 ## To run main (main.cpp): 
 1. Enter the root directory of the project.
 2. Run 'make' in the terminal.
-3. Run the executable code in the terminal with '
+3. Run the executable code in the terminal with './main'
 4. To create a new executable, run 'make clean' then repeat steps 1 - 3.
 
 ## Input Data
