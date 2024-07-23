@@ -1,4 +1,4 @@
-# alkadri2_aqneibi2
+# Page Rank Algorithm
 CS 225 Extra Credit Project for Fall Semester 2023
 
 # Github Organization
